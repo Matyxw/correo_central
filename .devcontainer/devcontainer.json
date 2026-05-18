@@ -1,0 +1,19 @@
+{
+  "name": "ClipperOps Workspace",
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "forwardPorts": [8080, 3000],
+  "portsAttributes": {
+    "8080": { "label": "Backend (Spring Boot)", "onAutoForward": "notify" },
+    "3000": { "label": "Frontend (Next.js)", "onAutoForward": "notify" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "bradlc.vscode-tailwindcss",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  }
+}
