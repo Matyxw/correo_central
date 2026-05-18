@@ -1,0 +1,13 @@
+# --- FRONTEND (Next.js / Node) ---
+**/node_modules/
+**/.next/
+**/.env*.local
+.DS_Store
+
+# --- BACKEND (Java / Maven / NetBeans) ---
+**/target/
+**/.idea/
+**/nbproject/private/
+**/nbactions.xml
+*.class
+*.jar

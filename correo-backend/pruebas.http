@@ -1,0 +1,38 @@
+### 1. CREAR ENVÍO (Debe generar el tracking automáticamente con un UUID)
+POST http://localhost:8080/api/envios
+Content-Type: application/json
+
+{
+  "remitente": "Centro Logístico Caseros",
+  "destinatario": "Matías Cardozo"
+}
+
+
+### 2. INTENTAR CREAR ENVÍO INVÁLIDO (Prueba de fuego para el GlobalExceptionHandler)
+# Debe devolver HTTP 400 Bad Request y un JSON explicando qué campo falló
+POST http://localhost:8080/api/envios
+Content-Type: application/json
+
+{
+  "remitente": "",
+  "destinatario": "Melody"
+}
+
+
+### 3. OBTENER TODOS LOS PAQUETES (Paginado y ordenado por fecha de creación descendente)
+GET http://localhost:8080/api/envios?page=0&size=5
+
+
+### 4. ACTUALIZAR ESTADO (Reemplazá el ID por el que te genere el paso 1)
+PUT http://localhost:8080/api/envios/PONE_EL_ID_ACÁ/estado
+Content-Type: application/json
+
+{
+  "estadoActual": "EN_TRANSITO"
+}
+
+
+### 5. INTENTAR TRANSICIÓN INVÁLIDA (Romper regla de negocio)
+# Primero cancelá el paquete con el DELETE de abajo, y luego intentalo pasar a EN_SUCURSAL. 
+# El servicio debe lanzar un EstadoInvalidoException y el handler debe devolver 449 o 409 Conflict.
+DELETE http://localhost:8080/api/envios/PONE_EL_ID_ACÁ
