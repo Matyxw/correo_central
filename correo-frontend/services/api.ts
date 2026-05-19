@@ -1,7 +1,7 @@
 // services/api.ts
 import { Envio, PageResponse } from '../types/envio';
 
-const API_URL = 'http://localhost:8080/api/envios';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/envios';
 
 export const envioService = {
   // Obtener todos (Paginado)

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/envios")
+@CrossOrigin(origins = "*")
 public class EnvioController {
 
     private final EnvioService service;
