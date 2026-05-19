@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { envioService } from '../../services/api';       
 import { Envio } from '../../types/envio';
+import { motion, Variants} from 'framer-motion';
 import NuevoEnvioModal from '../../components/NuevoEnvioModal';
 import InspeccionModal from '../../components/InspeccionModal';
 
@@ -70,20 +71,55 @@ export default function Dashboard() {
     return colores[estado] || 'bg-gray-100 text-gray-800';
   };
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 15, scale: 0.98 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 24 } 
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
         
-        {/* Cabecera Principal */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight font-sans">ClipperOps Logística</h1>
+        
+        {/* Cabecera Principal Animada */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex justify-between items-center mb-8"
+        >
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight font-sans">Correo Central Logística</h1>
           <button 
             onClick={() => setIsModalOpen(true)}
             className="bg-black text-white px-5 py-2.5 text-sm font-medium rounded-md hover:bg-gray-800 transition-colors shadow-sm"
           >
             + Nuevo Envío
           </button>
-        </div>
+        </motion.div>
+
+        {/* BARRA DE BÚSQUEDA TÁCTICA ANIMADA */}
+        <motion.form 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+          onSubmit={manejarBusqueda} 
+          className="mb-6 flex gap-3"
+        ></motion.form>
 
         {/* BARRA DE BÚSQUEDA TÁCTICA */}
         <form onSubmit={manejarBusqueda} className="mb-6 flex gap-3">
@@ -135,9 +171,15 @@ export default function Dashboard() {
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Última Actividad</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <motion.tbody 
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="bg-white divide-y divide-gray-200"
+              >
                 {envios.map((envio) => (
-                  <tr 
+                  <motion.tr 
+                    variants={itemVariants}
                     key={envio.id} 
                     onClick={() => setSelectedEnvio(envio)}
                     className="hover:bg-gray-50 transition-colors cursor-pointer"
@@ -157,9 +199,9 @@ export default function Dashboard() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
                       {new Date(envio.ultimaActualizacion).toLocaleString('es-AR')}
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
-              </tbody>
+              </motion.tbody>
             </table>
           )}
           
